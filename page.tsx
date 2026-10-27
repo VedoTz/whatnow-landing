@@ -466,9 +466,9 @@ export default function Home() {
 
           <p className="mt-6 max-w-[570px] text-[15px] leading-6 text-gray-500 md:mt-8 md:text-xl md:leading-8">
 
-            Tell us who you're with, how much time you have and what
+            Tell us who you&#39;re with, how much time you have and what
 
-            you're in the mood for. Planarela builds the plan, so you can
+            you&#39;re in the mood for. Planarela builds the plan, so you can
 
             spend less time deciding and more time doing.
 
@@ -952,7 +952,7 @@ export default function Home() {
 
                 <div className="rounded-[18px] bg-red-50 px-4 py-2 text-[13px] text-[#C52424]">
 
-                  I don't know.
+                  I don&#39;t know.
 
                 </div>
 
@@ -1132,7 +1132,7 @@ export default function Home() {
 
               <div className="rounded-[20px] bg-[#FFF0F0] px-5 py-3 text-sm text-[#C52424] shadow-[0_10px_28px_rgba(0,0,0,0.06)]">
 
-                I don't know.
+                I don&#39;t know.
 
               </div>
 
@@ -2892,7 +2892,7 @@ export default function Home() {
 
                 <h3 className="mt-4 text-2xl font-bold text-black">
 
-                  You're on the list.
+                  You&#39;re on the list.
 
                 </h3>
 
@@ -2900,7 +2900,7 @@ export default function Home() {
 
                 <p className="mt-2 text-sm leading-6 text-gray-500">
 
-                  We'll let you know when Planarela is ready for early access.
+                  We&#39;ll let you know when Planarela is ready for early access.
 
                 </p>
 
