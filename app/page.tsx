@@ -2,6 +2,8 @@
 
 
 
+import FeatureExplorer from "./feature-explorer";
+
 import { FormEvent, ReactNode, useState } from "react";
 
 import {
@@ -85,6 +87,8 @@ export default function Home() {
   const reduceMotion = useReducedMotion();
 
 
+
+  const [activeFeature, setActiveFeature] = useState<number | null>(null);
 
   const [email, setEmail] = useState("");
 
@@ -2442,7 +2446,7 @@ export default function Home() {
 
           >
 
-            {featureCards.map((card) => (
+            {featureCards.map((card, index) => (
 
               <motion.div
 
@@ -2479,12 +2483,13 @@ export default function Home() {
                 className={`group overflow-hidden rounded-[30px] ${card.bg} shadow-[0_18px_55px_rgba(0,0,0,0.05)] md:rounded-[38px]`}
 
               >
-
+                <button type="button" id={`feature-card-${index}`} className="fe-card-button" aria-expanded={activeFeature === index} aria-controls="feature-detail" onClick={() => setActiveFeature(activeFeature === index ? null : index)}>
                 <img
 
                   src={card.image}
 
-                  alt={card.label}
+                  alt=""
+                  loading="lazy"
 
                   className="aspect-[1.22/1] w-full object-cover transition duration-500 group-hover:scale-[1.025] md:aspect-[4/3]"
 
@@ -2562,11 +2567,15 @@ export default function Home() {
 
                 </div>
 
+                <span className="fe-card-hint px-6 pb-6">{activeFeature === index ? "Close details −" : "Explore & try it ↗"}</span>
+                </button>
               </motion.div>
 
             ))}
 
           </motion.div>
+
+          <FeatureExplorer active={activeFeature} onClose={() => { const previous = activeFeature; setActiveFeature(null); document.getElementById(`feature-card-${previous}`)?.focus(); }} />
 
         </div>
 
