@@ -1,5 +1,7 @@
 "use client";
 
+import { useStoryReveal } from "./use-story-reveal";
+
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import "./memories-story.css";
@@ -11,25 +13,26 @@ const chapters = [
 ];
 
 export default function MemoriesStory() {
+  const storyRoot = useStoryReveal();
   const [chapter, setChapter] = useState(0);
   const reducedMotion = useReducedMotion();
   const current = chapters[chapter];
   return (
-    <section className="pa-memories" id="friends-and-memories" aria-labelledby="pa-memory-title">
+    <section ref={storyRoot} className="pa-memories" id="friends-and-memories" aria-labelledby="pa-memory-title">
       <div className="pa-memory-inner">
-        <header className="pa-memory-heading">
+        <header data-story-reveal data-story-delay="0" className="pa-memory-heading">
           <p className="pa-memory-kicker">Your people. Your days. Your story.</p>
           <h2 id="pa-memory-title">Plan together.<br />Live the moment.<br /><span>Keep the memory.</span></h2>
           <p>From the first invitation to the stories you come back to. Make room for more life, together.</p>
         </header>
-        <div className="pa-memory-chapters" role="group" aria-label="Explore the story">
+        <div data-story-reveal data-story-delay="60" className="pa-memory-chapters" role="group" aria-label="Explore the story">
           {chapters.map((item, index) => (
             <button key={item.label} type="button" aria-pressed={chapter === index} aria-controls="pa-memory-scene" onClick={() => setChapter(index)}>
               <span className="pa-memory-number">0{index + 1}</span><span>{item.label}</span><span aria-hidden="true">↗</span>
             </button>
           ))}
         </div>
-        <div className="pa-memory-layout">
+        <div data-story-reveal data-story-delay="120" className="pa-memory-layout">
           <div className="pa-memory-copy" aria-live="polite" aria-atomic="true">
             <p className="pa-memory-kicker">0{chapter + 1} / {current.label}</p>
             <h3>{current.title}</h3>
@@ -42,7 +45,7 @@ export default function MemoriesStory() {
           </div>
           <div id="pa-memory-scene" className={`pa-memory-scene pa-memory-scene-${chapter}`}>
             <div className="pa-memory-demo-label">Illustrative story · Not an app screenshot</div>
-            <motion.div key={chapter} className="pa-memory-art" initial={reducedMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .4 }}>
+            <motion.div key={chapter} className="pa-memory-art" initial={reducedMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .7, ease: [.22, 1, .36, 1] }}>
               <p className="pa-memory-script">{current.scene}</p>
               {chapter === 0 ? <div className="pa-memory-people">
                 <div className="pa-memory-portraits" aria-hidden="true"><img src="/avatar-woman-curly-01.png" alt="" width="120" height="120" loading="lazy" /><span>+</span><img src="/avatar-man-navy-01.png" alt="" width="120" height="120" loading="lazy" /></div>
@@ -56,7 +59,7 @@ export default function MemoriesStory() {
             </motion.div>
           </div>
         </div>
-        <footer className="pa-memory-footer"><div><p className="pa-memory-kicker">There’s more life to make time for.</p><h3>Your next story starts with a plan.</h3></div><a href="#early-access">Get Early Access <span aria-hidden="true">↗</span></a></footer>
+        <footer data-story-reveal data-story-delay="180" className="pa-memory-footer"><div><p className="pa-memory-kicker">There’s more life to make time for.</p><h3>Your next story starts with a plan.</h3></div><a href="#early-access">Get Early Access <span aria-hidden="true">↗</span></a></footer>
       </div>
     </section>
   );

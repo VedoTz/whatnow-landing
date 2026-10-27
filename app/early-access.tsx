@@ -1,5 +1,7 @@
 "use client";
 
+import { useStoryReveal } from "./use-story-reveal";
+
 import { FormEvent, useEffect, useRef, useState } from "react";
 import "./early-access.css";
 
@@ -19,6 +21,8 @@ function campaignSource() {
 }
 
 export default function EarlyAccess() {
+  const storyRoot = useStoryReveal();
+  const accessRoot = useStoryReveal();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "success">("idle");
   const [error, setError] = useState("");
@@ -26,6 +30,8 @@ export default function EarlyAccess() {
   const [shareStatus, setShareStatus] = useState("");
   const [manualLink, setManualLink] = useState("");
   const input = useRef<HTMLInputElement>(null);
+  const card = useRef<HTMLDivElement>(null);
+  const [cardHeight, setCardHeight] = useState<number>();
   const success = useRef<HTMLDivElement>(null);
   const busy = useRef(false);
   const confirmed = useRef(false);
@@ -43,6 +49,7 @@ export default function EarlyAccess() {
     if (!input.current?.validity.valid || !local || !domain || extra !== undefined || normalized.length > 254 || local.length > 64 || local.startsWith(".") || local.endsWith(".") || local.includes("..") || !domain.includes(".") || domain.split(".").some(part => !/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(part))) {
       setInvalid(true); setError("Enter a valid email address, such as you@example.com."); setStatus("error"); input.current?.focus(); return;
     }
+    setCardHeight(card.current?.getBoundingClientRect().height);
     busy.current = true;
     setInvalid(false); setError(""); setStatus("loading");
     const controller = new AbortController(); request.current = controller;
@@ -80,17 +87,17 @@ export default function EarlyAccess() {
   }
 
   return <>
-    <section id="faq" className="pa-faq" aria-labelledby="faq-title">
+    <section ref={storyRoot} id="faq" className="pa-faq" aria-labelledby="faq-title">
       <div className="pa-faq-layout">
-        <div><p className="pa-eyebrow">A little clarity</p><h2 id="faq-title">Good questions.<br /><span>More possibilities.</span></h2><p className="pa-faq-intro">A few things to know before your next adventure.</p><a className="pa-faq-link" href="#early-access">Join the early access list <span aria-hidden="true">↗</span></a></div>
-        <div className="pa-faq-items">{questions.map(([question, answer], index) => <details key={question}><summary>{question}<span aria-hidden="true">+</span></summary><div className="pa-faq-answer"><p>{answer}</p>{index === 5 && <a href="https://formspree.io/legal/privacy-policy/">Formspree privacy policy ↗</a>}</div></details>)}</div>
+        <div data-story-reveal><p className="pa-eyebrow">A little clarity</p><h2 id="faq-title">Good questions.<br /><span>More possibilities.</span></h2><p className="pa-faq-intro">A few things to know before your next adventure.</p><a className="pa-faq-link" href="#early-access">Join the early access list <span aria-hidden="true">↗</span></a></div>
+        <div className="pa-faq-items">{questions.map(([question, answer], index) => <details key={question} data-story-reveal data-story-delay={index * 45}><summary>{question}<span aria-hidden="true">+</span></summary><div className="pa-faq-answer"><p>{answer}</p>{index === 5 && <a href="https://formspree.io/legal/privacy-policy/">Formspree privacy policy ↗</a>}</div></details>)}</div>
       </div>
     </section>
-    <section id="early-access" className="pa-access" aria-labelledby="access-title">
+    <section ref={accessRoot} id="early-access" className="pa-access" aria-labelledby="access-title">
       <div className="pa-access-inner">
-        <div className="pa-access-copy"><img src="/planarela-icon.png" alt="" width="80" height="80" /><p className="pa-eyebrow">Your next chapter</p><h2 id="access-title">Less deciding.<br />More <span>living.</span></h2><p>New places. Your favorite people.<br />Stories you'll want to keep.</p><div className="pa-access-note">A little more possibility in your everyday.</div></div>
-        <div className="pa-access-card">
-          {status === "success" ? <div ref={success} tabIndex={-1} className="pa-access-success"><span className="pa-access-check" aria-hidden="true">✓</span><h3>You're on the list!</h3><p>Your next adventure starts here. We'll let you know when it's your turn to explore Planarela.</p></div> : <><p className="pa-eyebrow">Be part of what’s next</p><h3>Make room for<br />your next adventure.</h3><p>Join the early access list for launch updates and news about availability.</p><form onSubmit={submit} noValidate aria-busy={status === "loading"}><label htmlFor="access-email">Email address</label><input ref={input} id="access-email" name="email" type="email" required maxLength={254} autoComplete="email" autoCapitalize="none" spellCheck={false} inputMode="email" placeholder="you@example.com" value={email} readOnly={status === "loading"} aria-invalid={invalid} aria-describedby={`access-note${error ? " access-error" : ""}`} onChange={event => { setEmail(event.target.value); if (status === "error") { setStatus("idle"); setError(""); setInvalid(false); } }} /><p id="access-error" role="alert" className="pa-access-error">{error}</p><button className="pa-access-submit" type="submit" disabled={status === "loading"}>{status === "loading" ? "Joining…" : "Join Early Access →"}</button><p role="status" className="pa-access-progress">{status === "loading" ? "Sending your signup. Please wait." : ""}</p><p id="access-note" className="pa-access-small">Free to join. No payment details.<br />Your email is sent via Formspree for early access and launch updates. <a href="#faq">Learn more in the FAQ.</a></p></form></>}
+        <div data-story-reveal className="pa-access-copy"><img src="/planarela-icon.png" alt="" width="80" height="80" /><p className="pa-eyebrow">Your next chapter</p><h2 id="access-title">Less deciding.<br />More <span>living.</span></h2><p>New places. Your favorite people.<br />Stories you&#39;ll want to keep.</p><div className="pa-access-note">A little more possibility in your everyday.</div></div>
+        <div ref={card} style={{ minHeight: cardHeight }} data-story-reveal data-story-delay="120" className="pa-access-card">
+          {status === "success" ? <div ref={success} tabIndex={-1} className="pa-access-success"><span className="pa-access-check" aria-hidden="true">✓</span><h3>You&#39;re on the list!</h3><p>Your next adventure starts here. We&#39;ll let you know when it&#39;s your turn to explore Planarela.</p></div> : <><p className="pa-eyebrow">Be part of what’s next</p><h3>Make room for<br />your next adventure.</h3><p>Join the early access list for launch updates and news about availability.</p><form onSubmit={submit} noValidate aria-busy={status === "loading"}><label htmlFor="access-email">Email address</label><input ref={input} id="access-email" name="email" type="email" required maxLength={254} autoComplete="email" autoCapitalize="none" spellCheck={false} inputMode="email" placeholder="you@example.com" value={email} readOnly={status === "loading"} aria-invalid={invalid} aria-describedby={`access-note${error ? " access-error" : ""}`} onChange={event => { setEmail(event.target.value); if (status === "error") { setStatus("idle"); setError(""); setInvalid(false); } }} /><p id="access-error" role="alert" className="pa-access-error">{error}</p><button className="pa-access-submit" type="submit" disabled={status === "loading"}>{status === "loading" ? "Joining…" : "Join Early Access →"}</button><p role="status" className="pa-access-progress">{status === "loading" ? "Sending your signup. Please wait." : ""}</p><p id="access-note" className="pa-access-small">Free to join. No payment details.<br />Your email is sent via Formspree for early access and launch updates. <a href="#faq">Learn more in the FAQ.</a></p></form></>}
           <div className="pa-access-share"><button type="button" onClick={share}>Share Planarela with a Friend <span aria-hidden="true">↗</span></button><p role="status">{shareStatus}</p>{manualLink && <><label htmlFor="share-link">Share link</label><input id="share-link" readOnly value={manualLink} onFocus={event => event.currentTarget.select()} /></>}</div>
         </div>
       </div>

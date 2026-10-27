@@ -1,5 +1,7 @@
 "use client";
 
+import { useStoryReveal } from "./use-story-reveal";
+
 import { useState } from "react";
 import "./achievements.css";
 
@@ -21,6 +23,7 @@ const special = [
 ];
 
 export default function Achievements() {
+  const storyRoot = useStoryReveal();
   const [selected, setSelected] = useState(0);
   const [replay, setReplay] = useState(0);
   const [previewed, setPreviewed] = useState(false);
@@ -31,23 +34,23 @@ export default function Achievements() {
     setReplay(0);
   }
   return (
-    <section id="achievements" className="pa-achievements" aria-labelledby="pa-achievements-title">
+    <section ref={storyRoot} id="achievements" className="pa-achievements" aria-labelledby="pa-achievements-title">
       <div className="pa-ach-inner">
-        <div className="pa-ach-heading">
+        <div data-story-reveal data-story-delay="0" className="pa-ach-heading">
           <p className="pa-ach-eyebrow">Achievements / A life well planned</p>
           <h2 id="pa-achievements-title">Make plans.<br />Make <span>your mark.</span></h2>
           <p className="pa-ach-lead">The places you discover. The people you bring together. The moments you make time for. Every completed plan is part of your story.</p>
         </div>
 
         <div className="pa-ach-showcase">
-          <div className="pa-ach-art">
+          <div data-story-reveal data-story-delay="60" className="pa-ach-art">
             <div className="pa-ach-orbit" aria-hidden="true" />
             <span className="pa-ach-art-label">The ultimate milestone</span>
             <img className="pa-ach-crown" src="/achievements/planarela-legend.webp" alt="Gold Planarela Legend crown with coral and blue gems" width="420" height="420" loading="lazy" decoding="async" />
             <p className="pa-ach-legend-name">Planarela Legend</p>
             <p className="pa-ach-legend-count"><strong>500</strong> completed plans</p>
           </div>
-          <div className="pa-ach-story">
+          <div data-story-reveal data-story-delay="120" className="pa-ach-story">
             <p className="pa-ach-eyebrow">From your first plan to your five hundredth</p>
             <h3>Less time on someday.<br />More “remember when?”</h3>
             <p>Start small. Try somewhere new. Bring your people along. Discover milestones that celebrate the experiences you actually live.</p>
@@ -61,12 +64,12 @@ export default function Achievements() {
         </div>
 
         <div className="pa-ach-journey">
-          <div className="pa-ach-journey-heading">
+          <div data-story-reveal data-story-delay="180" className="pa-ach-journey-heading">
             <div><p className="pa-ach-eyebrow">Eight milestones. Your own pace.</p><h3>The road to Legend.</h3></div>
             <p id="pa-ach-preview-note">Interactive preview only. Selecting a milestone or playing the animation does not complete plans or award achievements.</p>
           </div>
           <ol className="pa-ach-milestones" aria-label="Explore achievement milestones" aria-describedby="pa-ach-preview-note">
-            {milestones.map((item, index) => <li key={item.count}>
+            {milestones.map((item, index) => <li key={item.count} data-story-reveal data-story-delay={index % 4 * 60}>
               <button type="button" aria-pressed={selected === index} aria-controls="pa-ach-detail" onClick={() => select(index)}>
                 <img src={`/achievements/${item.icon}.webp`} alt="" width="80" height="80" loading="lazy" decoding="async" />
                 <span className="pa-ach-step-count">{item.count}</span>
@@ -95,7 +98,7 @@ export default function Achievements() {
           <p className="pa-ach-rule">In the app, progression counts only completed plans verified by Planarela. Preview activity on this page never counts toward your progress.</p>
         </div>
 
-        <div className="pa-ach-special">
+        <div data-story-reveal data-story-delay="180" className="pa-ach-special">
           <div><p className="pa-ach-eyebrow">Beyond the numbers</p><h3>There’s more than<br />one way to shine.</h3><p>From bringing people together to exploring the world, discover nine special achievements.</p></div>
           <ul aria-label="Special achievement collection">{special.map(([name, icon]) => <li key={icon}><img src={`/achievements/${icon}.webp`} alt="" width="64" height="64" loading="lazy" decoding="async" /><span>{name}</span></li>)}</ul>
         </div>
