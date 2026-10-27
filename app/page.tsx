@@ -3,6 +3,8 @@
 
 
 import FeatureExplorer from "./feature-explorer";
+import Achievements from "./achievements";
+import MemoriesStory from "./memories-story";
 
 import { FormEvent, ReactNode, useState } from "react";
 
@@ -2778,6 +2780,10 @@ export default function Home() {
       </section>
 
 
+
+      <Achievements />
+
+      <MemoriesStory />
 
       {/* FINAL CTA */}
 
