@@ -48,10 +48,10 @@ export default function MemoriesStory() {
             <motion.div key={chapter} className="pa-memory-art" initial={reducedMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : .7, ease: [.22, 1, .36, 1] }}>
               <p className="pa-memory-script">{current.scene}</p>
               {chapter === 0 ? <div className="pa-memory-people">
-                <div className="pa-memory-portraits" aria-hidden="true"><img src="/avatar-woman-curly-01.png" alt="" width="120" height="120" loading="lazy" /><span>+</span><img src="/avatar-man-navy-01.png" alt="" width="120" height="120" loading="lazy" /></div>
+                <div className="pa-memory-portraits" aria-hidden="true"><img src="/avatar-woman-curly-01.webp" alt="" width="120" height="120" loading="lazy" /><span>+</span><img src="/avatar-man-navy-01.webp" alt="" width="120" height="120" loading="lazy" /></div>
                 <div className="pa-memory-paper"><span className="pa-memory-kicker">A little hello</span><strong>“Free this afternoon?”</strong><p>One invitation. A day to look forward to.</p></div>
               </div> : <div className="pa-memory-photo">
-                <img src="/hero-good-food.png" alt="Existing Planarela food illustration used to represent a shared afternoon" width="460" height="320" loading="lazy" />
+                <img src="/hero-good-food.webp" alt="Existing Planarela food illustration used to represent a shared afternoon" width="460" height="320" loading="lazy" />
                 <div><span>{chapter === 1 ? "An afternoon together" : "A day worth keeping"}</span><span aria-hidden="true">{chapter === 1 ? "↗" : "♡"}</span></div>
               </div>}
               {chapter === 2 && <div className="pa-memory-timeline"><span aria-hidden="true">●</span><div><strong>In your Diary</strong><p>Completed plans, remembered your way.</p></div><span aria-hidden="true">♡</span></div>}
